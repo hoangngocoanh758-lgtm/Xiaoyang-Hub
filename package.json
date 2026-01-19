@@ -1,0 +1,49 @@
+{
+  "name": "bilibili-subtitle-converter",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e"
+  },
+  "dependencies": {
+    "core-js": "^3.37.0",
+    "lucide-vue-next": "^0.344.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-e2e-cypress": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/test-utils": "^2.4.0",
+    "autoprefixer": "^10.4.17",
+    "cypress": "^13.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-cypress": "^5.2.1",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-vue": "^9.0.0",
+    "jest": "^29.0.0",
+    "postcss": "^8.4.35",
+    "prettier": "^3.0.0",
+    "sass": "^1.70.0",
+    "sass-loader": "^14.0.0",
+    "tailwindcss": "^3.4.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
