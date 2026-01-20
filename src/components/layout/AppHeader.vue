@@ -24,6 +24,9 @@
           <router-link to="/works" class="nav-item" :class="navClass('works')"
             >作品一览</router-link
           >
+          <router-link to="/student-works" class="nav-item" :class="navClass('studentWorks')"
+            >学员作品</router-link
+          >
         </nav>
       </div>
       <nav class="flex items-center gap-4 text-xs text-slate-400">
@@ -53,7 +56,8 @@
       route.path === '/navigation' ||
       route.path === '/toolbox' ||
       route.path === '/about' ||
-      route.path === '/works'
+      route.path === '/works' ||
+      route.path === '/student-works'
   )
   const activeNav = computed(() => {
     if (route.path === '/' || route.path === '/navigation') {
@@ -64,6 +68,9 @@
     }
     if (route.path === '/works') {
       return 'works'
+    }
+    if (route.path === '/student-works') {
+      return 'studentWorks'
     }
     return ''
   })

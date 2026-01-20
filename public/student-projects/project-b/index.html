@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>极简专注计时器</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        background: #f8fafc;
+        color: #0f172a;
+      }
+      .wrapper {
+        height: 100%;
+        display: grid;
+        place-items: center;
+      }
+      .card {
+        width: min(520px, 90vw);
+        padding: 36px;
+        background: #fff;
+        border-radius: 24px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+        text-align: center;
+      }
+      .time {
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin: 18px 0 8px;
+      }
+      .meta {
+        color: #64748b;
+        margin-bottom: 24px;
+      }
+      button {
+        border: none;
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #ec4899;
+        color: #fff;
+        margin: 0 6px;
+      }
+      .ghost {
+        background: #e2e8f0;
+        color: #334155;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <h1>极简专注计时器</h1>
+        <div class="meta">25 分钟专注 · 5 分钟休息</div>
+        <div class="time" id="timer">25:00</div>
+        <div>
+          <button id="toggle">开始</button>
+          <button class="ghost" id="reset">重置</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const timerEl = document.getElementById('timer')
+      const toggleEl = document.getElementById('toggle')
+      const resetEl = document.getElementById('reset')
+      const focusSeconds = 25 * 60
+      let remaining = focusSeconds
+      let running = false
+      let timerId = null
+
+      const format = value => {
+        const minutes = String(Math.floor(value / 60)).padStart(2, '0')
+        const seconds = String(value % 60).padStart(2, '0')
+        return `${minutes}:${seconds}`
+      }
+
+      const render = () => {
+        timerEl.textContent = format(remaining)
+      }
+
+      const tick = () => {
+        if (remaining <= 0) {
+          running = false
+          toggleEl.textContent = '重新开始'
+          clearInterval(timerId)
+          timerId = null
+          return
+        }
+        remaining -= 1
+        render()
+      }
+
+      toggleEl.addEventListener('click', () => {
+        running = !running
+        if (running) {
+          toggleEl.textContent = '暂停'
+          timerId = setInterval(tick, 1000)
+        } else {
+          toggleEl.textContent = '继续'
+          clearInterval(timerId)
+          timerId = null
+        }
+      })
+
+      resetEl.addEventListener('click', () => {
+        remaining = focusSeconds
+        render()
+        running = false
+        toggleEl.textContent = '开始'
+        clearInterval(timerId)
+        timerId = null
+      })
+
+      render()
+    </script>
+  </body>
+</html>

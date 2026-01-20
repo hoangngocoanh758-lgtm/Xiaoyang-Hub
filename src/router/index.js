@@ -5,6 +5,7 @@ const HomeView = () => import('../views/HomeView.vue')
 const SubtitleConverterView = () => import('../views/SubtitleConverterView.vue')
 const PortfolioView = () => import('../views/PortfolioView.vue')
 const AboutView = () => import('../views/AboutView.vue')
+const StudentWorksView = () => import('../views/StudentWorksView.vue')
 
 const routes = [
   {
@@ -33,6 +34,14 @@ const routes = [
     component: PortfolioView,
     meta: {
       title: '小阳AI工具箱 - 作品一览'
+    }
+  },
+  {
+    path: '/student-works',
+    name: 'StudentWorks',
+    component: StudentWorksView,
+    meta: {
+      title: '小阳AI工具箱 - 学员作品'
     }
   },
   {

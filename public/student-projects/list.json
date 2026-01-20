@@ -1,0 +1,18 @@
+[
+  {
+    "id": "2026011901",
+    "title": "星空气泡生成器",
+    "author": "林昕",
+    "date": "2026-01-19",
+    "path": "/student-projects/project-a/index.html",
+    "description": "点击画布生成漂浮气泡与星光点阵效果，支持自动动画。"
+  },
+  {
+    "id": "2026011902",
+    "title": "极简专注计时器",
+    "author": "周珂",
+    "date": "2026-01-19",
+    "path": "/student-projects/project-b/index.html",
+    "description": "番茄工作法计时器，支持主题切换与专注提示。"
+  }
+]

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>星空气泡生成器</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: radial-gradient(circle at top, #1e1b4b, #0f172a);
+        color: #fff;
+        font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      }
+      .container {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+      canvas {
+        width: min(680px, 90vw);
+        height: min(420px, 60vh);
+        border-radius: 20px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 28px;
+        letter-spacing: 2px;
+      }
+      p {
+        margin: 0 0 24px;
+        color: rgba(226, 232, 240, 0.8);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h1>星空气泡生成器</h1>
+        <p>点击画布生成气泡，享受夜空的宁静</p>
+        <canvas id="stage" width="680" height="420"></canvas>
+      </div>
+    </div>
+    <script>
+      const canvas = document.getElementById('stage')
+      const ctx = canvas.getContext('2d')
+      const bubbles = []
+      const stars = Array.from({ length: 120 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.6 + 0.2,
+        a: Math.random() * 0.6 + 0.2
+      }))
+
+      const addBubble = (x, y) => {
+        bubbles.push({
+          x,
+          y,
+          r: Math.random() * 12 + 8,
+          vy: Math.random() * -0.6 - 0.4,
+          alpha: 1
+        })
+      }
+
+      const draw = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = '#0f172a'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        stars.forEach(star => {
+          ctx.beginPath()
+          ctx.fillStyle = `rgba(248,250,252,${star.a})`
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2)
+          ctx.fill()
+        })
+        bubbles.forEach(bubble => {
+          ctx.beginPath()
+          ctx.strokeStyle = `rgba(148, 163, 184, ${bubble.alpha})`
+          ctx.lineWidth = 2
+          ctx.arc(bubble.x, bubble.y, bubble.r, 0, Math.PI * 2)
+          ctx.stroke()
+          bubble.y += bubble.vy
+          bubble.alpha -= 0.005
+        })
+        for (let i = bubbles.length - 1; i >= 0; i -= 1) {
+          if (bubbles[i].alpha <= 0) {
+            bubbles.splice(i, 1)
+          }
+        }
+        requestAnimationFrame(draw)
+      }
+
+      canvas.addEventListener('click', event => {
+        const rect = canvas.getBoundingClientRect()
+        const x = ((event.clientX - rect.left) / rect.width) * canvas.width
+        const y = ((event.clientY - rect.top) / rect.height) * canvas.height
+        addBubble(x, y)
+      })
+
+      draw()
+    </script>
+  </body>
+</html>
