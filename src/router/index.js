@@ -21,6 +21,14 @@ const routes = [
     redirect: '/'
   },
   {
+    path: '/admin/nav',
+    name: 'NavigationAdmin',
+    component: NavigationView,
+    meta: {
+      title: '小阳AI工具箱 - 导航管理'
+    }
+  },
+  {
     path: '/toolbox',
     name: 'Toolbox',
     component: HomeView,
