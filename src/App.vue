@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen font-body text-slate-800 relative overflow-hidden">
+  <div class="min-h-screen font-body text-slate-800 relative overflow-visible">
     <div class="pointer-events-none fixed inset-0 -z-10">
       <div class="absolute -top-40 -left-28 h-96 w-96 rounded-full bg-rose-200/60 blur-3xl"></div>
       <div
