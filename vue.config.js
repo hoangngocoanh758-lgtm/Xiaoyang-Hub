@@ -10,7 +10,7 @@ module.exports = defineConfig({
       template: 'public/index.html',
       // 在 dist/index.html 的输出
       filename: 'index.html',
-      title: '小阳AI工具箱',
+      title: '小阳AI工具箱'
       // 网页标题
     },
     // 新增：让 Webpack 额外构建一个 404.html
@@ -20,7 +20,7 @@ module.exports = defineConfig({
       entry: 'src/main.js',
       template: 'public/index.html',
       filename: '404.html',
-      title: '小阳AI工具箱',
+      title: '小阳AI工具箱'
     }
   }
 })
