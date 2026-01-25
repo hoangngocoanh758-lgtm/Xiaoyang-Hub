@@ -1,13 +1,13 @@
 <template>
-  <div class="p-6 border-b border-slate-100">
+  <div class="p-6 border-b border-white/70 bg-white/60">
     <div class="flex justify-between items-center mb-3">
-      <label class="text-sm font-bold text-slate-700 flex items-center gap-2">
+      <label class="text-sm font-bold text-slate-700 flex items-center gap-2 font-display">
         <MousePointerClick :size="16" /> JSON 数据输入
       </label>
       <button
         v-if="inputJson"
         type="button"
-        class="text-xs text-slate-400 hover:text-red-500 flex items-center gap-1 transition-colors"
+        class="text-xs text-slate-400 hover:text-rose-500 flex items-center gap-1 transition-colors"
         @click="clear"
       >
         <Trash2 :size="12" /> 清空内容
@@ -15,7 +15,7 @@
     </div>
     <div class="relative group">
       <textarea
-        class="w-full h-40 p-4 rounded-xl border-2 bg-slate-50 font-mono text-xs resize-none focus:outline-none transition-all"
+        class="w-full h-44 p-4 rounded-2xl border-2 bg-white/70 font-mono text-xs resize-none focus:outline-none transition-all shadow-inner"
         :class="textareaClass"
         :value="inputJson"
         @input="onInput"
@@ -24,19 +24,19 @@
       <div class="absolute right-4 bottom-4">
         <div
           v-if="parsedCount > 0 && !error"
-          class="flex items-center gap-1.5 text-green-600 bg-white px-3 py-1 rounded-full shadow-sm text-xs font-medium animate-in fade-in slide-in-from-bottom-2"
+          class="flex items-center gap-1.5 text-emerald-600 bg-white/90 px-3 py-1 rounded-full shadow-sm text-xs font-medium animate-in fade-in slide-in-from-bottom-2"
         >
           <CheckCircle2 :size="14" /> 已识别 {{ parsedCount }} 行字幕
         </div>
         <div
           v-if="error"
-          class="flex items-center gap-1.5 text-red-600 bg-white px-3 py-1 rounded-full shadow-sm text-xs font-medium animate-in fade-in slide-in-from-bottom-2"
+          class="flex items-center gap-1.5 text-rose-600 bg-white/90 px-3 py-1 rounded-full shadow-sm text-xs font-medium animate-in fade-in slide-in-from-bottom-2"
         >
           <AlertCircle :size="14" /> 格式错误
         </div>
       </div>
     </div>
-    <p v-if="error" class="text-xs text-red-500 mt-2 ml-1">
+    <p v-if="error" class="text-xs text-rose-500 mt-2 ml-1">
       {{ error }}
     </p>
   </div>
@@ -65,12 +65,12 @@
 
   const textareaClass = computed(() => {
     if (props.error) {
-      return 'border-red-200 bg-red-50 focus:border-red-400'
+      return 'border-rose-200 bg-rose-50/70 focus:border-rose-400'
     }
     if (props.parsedCount > 0) {
-      return 'border-green-200 bg-green-50 focus:border-green-400'
+      return 'border-emerald-200 bg-emerald-50/60 focus:border-emerald-400'
     }
-    return 'border-slate-200 focus:border-pink-400 focus:bg-white'
+    return 'border-slate-200 focus:border-rose-300 focus:bg-white'
   })
 
   const onInput = event => {

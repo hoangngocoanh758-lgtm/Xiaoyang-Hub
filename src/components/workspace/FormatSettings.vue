@@ -1,13 +1,15 @@
 <template>
-  <div class="flex-0 flex flex-col bg-slate-50/50">
+  <div class="flex-0 flex flex-col bg-white/60">
     <div class="p-6 pb-2">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-        <div class="flex items-center gap-2 bg-slate-200 p-1 rounded-lg self-start">
+        <div
+          class="flex items-center gap-2 bg-white/80 border border-white/70 p-1 rounded-full self-start shadow-sm"
+        >
           <button
             v-for="fmt in formats"
             :key="fmt"
             type="button"
-            class="px-4 py-1.5 rounded-md text-sm font-medium transition-all"
+            class="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
             :class="buttonClass(fmt)"
             @click="changeFormat(fmt)"
           >
@@ -21,7 +23,7 @@
             type="number"
             step="0.5"
             :value="timeOffset"
-            class="w-20 px-2 py-1 text-sm border border-slate-300 rounded focus:outline-none focus:border-pink-400"
+            class="w-24 px-2 py-1 text-sm border border-white/70 bg-white/80 rounded-full focus:outline-none focus:border-rose-300"
             @input="changeOffset($event.target.value)"
           />
         </div>
@@ -58,8 +60,8 @@
 
   const buttonClass = fmt => {
     if (fmt === props.outputFormat) {
-      return 'bg-white text-pink-500 shadow-sm'
+      return 'bg-rose-500 text-white shadow-sm shadow-rose-200'
     }
-    return 'text-slate-500 hover:text-slate-700'
+    return 'text-slate-500 hover:text-slate-900'
   }
 </script>

@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar or global styles if needed */
 body {
-  @apply bg-slate-50;
+  @apply bg-slate-50 text-slate-800 font-body;
 }

@@ -1,13 +1,13 @@
 <template>
   <div
-    class="p-6 border-t border-slate-100 bg-white rounded-b-2xl flex flex-col sm:flex-row gap-4 items-center justify-end"
+    class="p-6 border-t border-white/70 bg-white/70 rounded-b-2xl flex flex-col sm:flex-row gap-4 items-center justify-end"
   >
-    <p class="text-xs text-slate-400 mr-auto">
+    <p class="text-xs text-slate-500 mr-auto">
       {{ statusText }}
     </p>
     <button
       type="button"
-      class="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:text-pink-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+      class="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-white/70 bg-white/80 text-slate-700 font-semibold hover:bg-white hover:text-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
       :disabled="parsedCount === 0"
       @click="handleCopy"
     >
@@ -15,7 +15,7 @@
     </button>
     <button
       type="button"
-      class="w-full sm:w-auto px-8 py-2.5 rounded-xl bg-pink-400 text-white font-bold shadow-lg shadow-pink-200 hover:bg-pink-500 hover:shadow-pink-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:shadow-none transition-all flex items-center justify-center gap-2"
+      class="w-full sm:w-auto px-8 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 text-white font-bold shadow-lg shadow-rose-200 hover:shadow-rose-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:shadow-none transition-all flex items-center justify-center gap-2"
       :disabled="parsedCount === 0"
       @click="handleDownload"
     >

@@ -1,41 +1,54 @@
 <template>
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <section class="text-center py-4">
-      <h2 class="text-3xl sm:text-4xl font-bold text-slate-800">学员作品</h2>
-      <p class="text-sm sm:text-base text-slate-500 mt-3">实时更新学员作品，无需重新部署</p>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <section
+      class="relative overflow-hidden rounded-3xl border border-white/70 bg-white/70 backdrop-blur-xl px-6 py-8 sm:px-10"
+    >
+      <div class="absolute -right-14 -top-16 h-32 w-32 rounded-full bg-rose-200/60 blur-3xl"></div>
+      <div class="absolute -bottom-16 left-8 h-32 w-32 rounded-full bg-amber-200/50 blur-3xl"></div>
+      <div class="relative">
+        <div
+          class="inline-flex items-center gap-2 text-xs font-semibold text-rose-600 bg-rose-50/90 border border-rose-100/80 px-3 py-1 rounded-full"
+        >
+          🧑‍🎓 学员作品
+        </div>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-display text-slate-900">学员作品</h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-3 max-w-2xl">
+          实时更新学员作品，无需重新部署
+        </p>
+      </div>
     </section>
 
-    <section class="mt-6 flex flex-col lg:flex-row gap-6 min-h-[70vh]">
+    <section class="mt-8 flex flex-col lg:flex-row gap-6 min-h-[70vh]">
       <div
-        class="lg:w-80 xl:w-96 bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden flex flex-col"
+        class="lg:w-80 xl:w-96 bg-white/80 border border-white/70 rounded-2xl shadow-sm overflow-hidden flex flex-col backdrop-blur"
       >
-        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-          <span class="text-sm font-semibold text-slate-900">作品列表</span>
+        <div class="px-5 py-4 border-b border-white/70 flex items-center justify-between">
+          <span class="text-sm font-semibold text-slate-900 font-display">作品列表</span>
           <span class="text-xs text-slate-400">{{ works.length }} 个作品</span>
         </div>
         <div class="flex-1 overflow-auto">
-          <div v-if="listLoading" class="p-6 text-sm text-slate-400">正在加载作品...</div>
-          <div v-else-if="listError" class="p-6 text-sm text-red-500">{{ listError }}</div>
+          <div v-if="listLoading" class="p-6 text-sm text-slate-500">正在加载作品...</div>
+          <div v-else-if="listError" class="p-6 text-sm text-rose-500">{{ listError }}</div>
           <button
             v-else
             v-for="item in works"
             :key="item.id"
             type="button"
-            class="w-full text-left px-5 py-4 border-b border-slate-100 hover:bg-slate-50 transition-colors"
-            :class="item.id === activeId ? 'bg-pink-50' : ''"
+            class="w-full text-left px-5 py-4 border-b border-white/70 hover:bg-white transition-colors"
+            :class="item.id === activeId ? 'bg-rose-50/80' : ''"
             @click="selectWork(item)"
           >
             <div class="text-sm font-semibold text-slate-900">{{ item.title }}</div>
             <div class="text-xs text-slate-500 mt-1">{{ item.author }} · {{ item.date }}</div>
-            <div class="text-xs text-slate-400 mt-2">{{ item.description }}</div>
+            <div class="text-xs text-slate-500 mt-2">{{ item.description }}</div>
           </button>
         </div>
       </div>
 
       <div
-        class="flex-1 bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col overflow-hidden min-h-[70vh]"
+        class="flex-1 bg-white/80 border border-white/70 rounded-2xl shadow-sm flex flex-col overflow-hidden min-h-[70vh] backdrop-blur"
       >
-        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between gap-4">
+        <div class="px-5 py-4 border-b border-white/70 flex items-center justify-between gap-4">
           <div class="min-w-0">
             <div class="text-sm font-semibold text-slate-900">
               {{ activeWork ? activeWork.title : '请选择作品进行预览' }}
@@ -49,13 +62,13 @@
             :href="activeWork.path"
             target="_blank"
             rel="noreferrer"
-            class="text-slate-400 hover:text-pink-500 transition-colors"
+            class="text-slate-400 hover:text-rose-600 transition-colors"
             title="新窗口打开"
           >
             <ExternalLink :size="18" />
           </a>
         </div>
-        <div class="relative flex-1 bg-slate-100/70">
+        <div class="relative flex-1 bg-slate-100/60">
           <div
             v-if="!activeWork && !listLoading"
             class="absolute inset-0 flex items-center justify-center text-sm text-slate-400"
@@ -64,7 +77,7 @@
           </div>
           <iframe
             v-if="activeWork"
-            class="w-full h-full border border-slate-200 bg-white"
+            class="w-full h-full border border-white/70 bg-white"
             :src="activeWork.path"
             sandbox="allow-scripts allow-forms allow-same-origin"
             @load="handleFrameLoad"
@@ -75,7 +88,7 @@
           >
             <div class="flex items-center gap-3 text-sm text-slate-500">
               <span
-                class="w-4 h-4 border-2 border-pink-400 border-t-transparent rounded-full animate-spin"
+                class="w-4 h-4 border-2 border-rose-400 border-t-transparent rounded-full animate-spin"
               ></span>
               作品加载中...
             </div>

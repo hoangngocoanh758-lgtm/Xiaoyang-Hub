@@ -1,25 +1,41 @@
 <template>
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <section class="text-center py-6">
-      <h2 class="text-3xl sm:text-4xl font-bold text-slate-800">网址导航</h2>
-      <p class="text-sm sm:text-base text-slate-500 mt-3">精选优质站点，快速进入创作流程</p>
+    <section
+      class="relative overflow-hidden rounded-3xl border border-white/70 bg-white/70 backdrop-blur-xl px-6 py-8 sm:px-10"
+    >
+      <div class="absolute -right-14 -top-16 h-32 w-32 rounded-full bg-rose-200/60 blur-3xl"></div>
+      <div class="absolute -bottom-16 left-8 h-32 w-32 rounded-full bg-amber-200/50 blur-3xl"></div>
+      <div class="relative">
+        <div
+          class="inline-flex items-center gap-2 text-xs font-semibold text-rose-600 bg-rose-50/90 border border-rose-100/80 px-3 py-1 rounded-full"
+        >
+          🔗 创作导航
+        </div>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-display text-slate-900">网址导航</h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-3 max-w-2xl">
+          精选优质站点，快速进入创作流程
+        </p>
+      </div>
     </section>
 
     <section class="mt-6 space-y-6">
-      <div v-if="isAdmin" class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+      <div
+        v-if="isAdmin"
+        class="bg-white/80 rounded-2xl shadow-lg shadow-rose-100/40 border border-white/70 p-4 backdrop-blur"
+      >
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div class="text-sm text-slate-500">管理模式已开启</div>
+          <div class="text-sm text-slate-600 font-medium">管理模式已开启</div>
           <div class="flex items-center gap-2">
             <button
               type="button"
-              class="px-4 py-2 rounded-lg bg-pink-500 text-white text-sm font-semibold hover:bg-pink-600 transition-colors"
+              class="px-4 py-2 rounded-lg bg-rose-500 text-white text-sm font-semibold hover:bg-rose-600 transition-colors shadow-sm shadow-rose-200"
               @click="openCreate"
             >
               新增链接
             </button>
             <button
               type="button"
-              class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-colors"
+              class="px-4 py-2 rounded-lg border border-white/70 bg-white/60 text-slate-600 text-sm font-semibold hover:bg-white transition-colors"
               @click="fetchNavItems"
             >
               刷新
@@ -28,22 +44,28 @@
         </div>
       </div>
 
-      <div v-if="listLoading" class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-        <div class="text-sm text-slate-400">正在加载导航数据...</div>
+      <div
+        v-if="listLoading"
+        class="bg-white/80 rounded-2xl shadow-sm border border-white/70 p-6 backdrop-blur"
+      >
+        <div class="text-sm text-slate-500">正在加载导航数据...</div>
       </div>
 
-      <div v-else-if="listError" class="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
-        <div class="text-sm text-red-500">{{ listError }}</div>
+      <div
+        v-else-if="listError"
+        class="bg-white/80 rounded-2xl shadow-sm border border-rose-100 p-6 backdrop-blur"
+      >
+        <div class="text-sm text-rose-600">{{ listError }}</div>
       </div>
 
       <template v-else>
         <div
           v-for="group in groups"
           :key="group.category"
-          class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6"
+          class="bg-white/80 rounded-2xl shadow-sm border border-white/70 p-6 backdrop-blur"
         >
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-bold text-slate-900">{{ group.category }}</h3>
+            <h3 class="text-lg font-bold text-slate-900 font-display">{{ group.category }}</h3>
             <span class="text-xs text-slate-400">{{ group.links.length }} 个链接</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -53,30 +75,30 @@
               :href="item.url"
               target="_blank"
               rel="noreferrer"
-              class="border border-slate-100 rounded-xl p-4 hover:shadow-md hover:-translate-y-1 transition-all bg-slate-50 cursor-pointer relative"
+              class="border border-white/70 rounded-2xl p-4 hover:shadow-lg hover:-translate-y-1 transition-all bg-white/70 backdrop-blur cursor-pointer relative"
             >
               <div class="flex items-start gap-3">
                 <img
                   :src="item.icon"
                   :alt="item.name"
-                  class="w-8 h-8 rounded-full bg-white border border-slate-100 shrink-0"
+                  class="w-9 h-9 rounded-full bg-white border border-white/70 shrink-0 shadow-sm"
                 />
                 <div>
                   <div class="text-sm font-semibold text-slate-900">{{ item.name }}</div>
-                  <div class="text-xs text-slate-500 mt-1">{{ item.desc }}</div>
+                  <div class="text-xs text-slate-600 mt-1">{{ item.desc }}</div>
                 </div>
               </div>
               <div v-if="isAdmin" class="absolute top-3 right-3 flex items-center gap-2">
                 <button
                   type="button"
-                  class="text-xs text-slate-500 hover:text-pink-500"
+                  class="text-xs text-slate-500 hover:text-rose-600"
                   @click.prevent.stop="openEdit(item)"
                 >
                   编辑
                 </button>
                 <button
                   type="button"
-                  class="text-xs text-red-400 hover:text-red-500"
+                  class="text-xs text-rose-400 hover:text-rose-600"
                   @click.prevent.stop="handleDelete(item)"
                 >
                   删除
@@ -88,16 +110,16 @@
 
         <div
           v-if="groups.length === 0"
-          class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6"
+          class="bg-white/80 rounded-2xl shadow-sm border border-white/70 p-6 backdrop-blur"
         >
-          <div class="text-sm text-slate-400">暂无导航数据</div>
+          <div class="text-sm text-slate-500">暂无导航数据</div>
         </div>
       </template>
     </section>
 
     <div v-if="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6">
-        <div class="text-lg font-semibold text-slate-900 mb-4">
+      <div class="bg-white/90 rounded-2xl shadow-2xl w-full max-w-lg p-6 backdrop-blur">
+        <div class="text-lg font-semibold text-slate-900 mb-4 font-display">
           {{ form.id ? '编辑链接' : '新增链接' }}
         </div>
         <div class="space-y-3">
@@ -105,50 +127,50 @@
             v-model="form.name"
             type="text"
             placeholder="标题"
-            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400"
+            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
           />
           <input
             v-model="form.url"
             type="text"
             placeholder="链接"
-            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400"
+            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
           />
           <input
             v-model="form.category"
             type="text"
             placeholder="分类"
-            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400"
+            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
           />
           <input
             v-model="form.icon"
             type="text"
             placeholder="图标地址"
-            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400"
+            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
           />
           <input
             v-model="form.desc"
             type="text"
             placeholder="描述"
-            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400"
+            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
           />
           <input
             v-model="form.sort_order"
             type="number"
             placeholder="排序权重"
-            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400"
+            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
           />
         </div>
         <div class="mt-6 flex items-center justify-end gap-3">
           <button
             type="button"
-            class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-colors"
+            class="px-4 py-2 rounded-lg border border-white/70 bg-white/70 text-slate-600 text-sm font-semibold hover:bg-white transition-colors"
             @click="closeModal"
           >
             取消
           </button>
           <button
             type="button"
-            class="px-4 py-2 rounded-lg bg-pink-500 text-white text-sm font-semibold hover:bg-pink-600 transition-colors disabled:opacity-50"
+            class="px-4 py-2 rounded-lg bg-rose-500 text-white text-sm font-semibold hover:bg-rose-600 transition-colors disabled:opacity-50"
             :disabled="saving"
             @click="saveItem"
           >
