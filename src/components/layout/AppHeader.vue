@@ -24,7 +24,7 @@
         </router-link>
         <nav class="flex items-center gap-3 text-sm">
           <router-link
-            to="/"
+            to="/nav"
             class="nav-item px-3 py-1.5 rounded-full text-sm font-medium border border-transparent transition-all"
             :class="navClass('navigation')"
             >网址导航</router-link
@@ -74,7 +74,7 @@
   const route = useRoute()
   const isTopLevel = computed(
     () =>
-      route.path === '/' ||
+      route.path === '/nav' ||
       route.path === '/navigation' ||
       route.path === '/toolbox' ||
       route.path === '/about' ||
@@ -82,7 +82,7 @@
       route.path === '/student-works'
   )
   const activeNav = computed(() => {
-    if (route.path === '/' || route.path === '/navigation') {
+    if (route.path === '/nav' || route.path === '/navigation') {
       return 'navigation'
     }
     if (route.path === '/toolbox' || route.path.startsWith('/toolbox/')) {

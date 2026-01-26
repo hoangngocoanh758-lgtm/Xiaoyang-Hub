@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const NavigationView = () => import('../views/NavigationView.vue')
+const NavPage = () => import('../pages/nav/NavPage.vue')
+const NavAdminPage = () => import('../pages/admin/NavAdminPage.vue')
 const HomeView = () => import('../views/HomeView.vue')
 const SubtitleConverterView = () => import('../views/SubtitleConverterView.vue')
 const PortfolioView = () => import('../views/PortfolioView.vue')
@@ -10,20 +11,24 @@ const StudentWorksView = () => import('../views/StudentWorksView.vue')
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: NavigationView,
+    redirect: '/nav'
+  },
+  {
+    path: '/nav',
+    name: 'Navigation',
+    component: NavPage,
     meta: {
       title: '小阳AI工具箱 - 网址导航'
     }
   },
   {
     path: '/navigation',
-    redirect: '/'
+    redirect: '/nav'
   },
   {
     path: '/admin/nav',
     name: 'NavigationAdmin',
-    component: NavigationView,
+    component: NavAdminPage,
     meta: {
       title: '小阳AI工具箱 - 导航管理'
     }
