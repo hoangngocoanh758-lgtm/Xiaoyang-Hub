@@ -106,43 +106,69 @@
         <div class="text-lg font-semibold text-slate-900 mb-4 font-display">
           {{ form.id ? '编辑链接' : '新增链接' }}
         </div>
-        <div class="space-y-3">
-          <input
-            v-model="form.name"
-            type="text"
-            placeholder="标题"
-            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
-          />
-          <input
-            v-model="form.url"
-            type="text"
-            placeholder="链接"
-            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
-          />
-          <input
-            v-model="form.category"
-            type="text"
-            placeholder="分类"
-            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
-          />
-          <input
-            v-model="form.icon"
-            type="text"
-            placeholder="图标地址"
-            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
-          />
-          <input
-            v-model="form.desc"
-            type="text"
-            placeholder="描述"
-            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
-          />
-          <input
-            v-model="form.sort_order"
-            type="number"
-            placeholder="排序权重"
-            class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
-          />
+        <div class="space-y-4">
+          <div class="rounded-xl border border-white/70 bg-white/70 p-3">
+            <div class="text-xs font-semibold text-slate-500 mb-2">AI 极速填充</div>
+            <div class="flex flex-col gap-2 sm:flex-row">
+              <input
+                v-model="aiUrl"
+                type="text"
+                placeholder="在此粘贴网址，一键自动填写..."
+                class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+              />
+              <button
+                type="button"
+                class="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-colors disabled:opacity-60 inline-flex items-center justify-center gap-2"
+                :disabled="aiLoading || !aiUrl"
+                @click="handleAiParse"
+              >
+                <span
+                  v-if="aiLoading"
+                  class="w-4 h-4 border-2 border-white/70 border-t-transparent rounded-full animate-spin"
+                ></span>
+                <span>{{ aiLoading ? '识别中...' : '✨ 智能识别' }}</span>
+              </button>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <input
+              ref="nameInputRef"
+              v-model="form.name"
+              type="text"
+              placeholder="标题"
+              class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+            />
+            <input
+              v-model="form.url"
+              type="text"
+              placeholder="链接"
+              class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+            />
+            <input
+              v-model="form.category"
+              type="text"
+              placeholder="分类"
+              class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+            />
+            <input
+              v-model="form.icon"
+              type="text"
+              placeholder="图标地址"
+              class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+            />
+            <input
+              v-model="form.desc"
+              type="text"
+              placeholder="描述"
+              class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+            />
+            <input
+              v-model="form.sort_order"
+              type="number"
+              placeholder="排序权重"
+              class="w-full border border-white/70 bg-white/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-300"
+            />
+          </div>
         </div>
         <div class="mt-6 flex items-center justify-end gap-3">
           <button
@@ -155,7 +181,7 @@
           <button
             type="button"
             class="px-4 py-2 rounded-lg bg-rose-500 text-white text-sm font-semibold hover:bg-rose-600 transition-colors disabled:opacity-50"
-            :disabled="saving"
+            :disabled="saving || aiLoading"
             @click="saveItem"
           >
             保存
@@ -167,13 +193,26 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted } from 'vue'
+  import { ref, computed, onMounted, nextTick } from 'vue'
+  import { useStore } from 'vuex'
   import { useNavigationItems } from '@/composables/useNavigationItems'
 
-  const { navItems, listLoading, listError, fetchNavItems, createItem, updateItem, deleteItem } =
-    useNavigationItems()
+  const store = useStore()
+  const {
+    navItems,
+    listLoading,
+    listError,
+    fetchNavItems,
+    createItem,
+    updateItem,
+    deleteItem,
+    parseUrlByAi
+  } = useNavigationItems()
   const modalOpen = ref(false)
   const saving = ref(false)
+  const aiLoading = ref(false)
+  const aiUrl = ref('')
+  const nameInputRef = ref(null)
   const form = ref({
     id: null,
     name: '',
@@ -206,6 +245,7 @@
       desc: '',
       sort_order: 0
     }
+    aiUrl.value = ''
     modalOpen.value = true
   }
 
@@ -219,6 +259,7 @@
       desc: item.desc || '',
       sort_order: item.sort_order ?? 0
     }
+    aiUrl.value = item.url || ''
     modalOpen.value = true
   }
 
@@ -243,6 +284,33 @@
     }
     modalOpen.value = false
     fetchNavItems()
+  }
+
+  const handleAiParse = async () => {
+    if (!aiUrl.value) {
+      return
+    }
+    aiLoading.value = true
+    const result = await parseUrlByAi(aiUrl.value)
+    aiLoading.value = false
+    if (result?.error) {
+      store.dispatch('subtitle/showToast', 'AI 识别失败，请手动填写')
+      return
+    }
+    const data = result?.data || {}
+    form.value = {
+      ...form.value,
+      name: data.name || form.value.name,
+      url: data.url || form.value.url,
+      category: data.category || form.value.category,
+      icon: data.icon || form.value.icon,
+      desc: data.desc || form.value.desc
+    }
+    await nextTick()
+    if (nameInputRef.value) {
+      nameInputRef.value.focus()
+    }
+    store.dispatch('subtitle/showToast', '识别成功，请确认信息')
   }
 
   const handleDelete = async item => {

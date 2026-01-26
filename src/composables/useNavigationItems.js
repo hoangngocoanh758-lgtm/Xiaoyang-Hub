@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { supabase, supabaseConfig } from '@/supabase'
 
 const tableName = 'xy_navigation_items'
+const aiParserPath = '/functions/v1/ai-parser'
 
 export function useNavigationItems() {
   const navItems = ref([])
@@ -111,6 +112,45 @@ export function useNavigationItems() {
     return supabase.from(tableName).delete().eq('id', id)
   }
 
+  const buildAiParserUrl = () => {
+    const base = (supabaseConfig.supabaseUrl || '').trim().replace(/\/$/, '')
+    return base ? `${base}${aiParserPath}` : aiParserPath
+  }
+
+  const parseUrlByAi = async url => {
+    listError.value = ''
+    if (!ensureConfig()) {
+      return { error: { message: listError.value } }
+    }
+    try {
+      const endpoint = buildAiParserUrl()
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${supabaseConfig.supabaseAnonKey}`
+        },
+        body: JSON.stringify({ url })
+      })
+      const payload = await response.json()
+      if (!response.ok || !payload?.success) {
+        return { error: { message: payload?.error || 'AI 识别失败' } }
+      }
+      const data = payload.data || {}
+      return {
+        data: {
+          name: data.title ?? '',
+          url: data.url ?? url ?? '',
+          desc: data.description ?? '',
+          category: data.category ?? '',
+          icon: data.icon_url ?? ''
+        }
+      }
+    } catch (error) {
+      return { error: { message: error?.message || 'AI 识别失败' } }
+    }
+  }
+
   return {
     navItems,
     listLoading,
@@ -118,6 +158,7 @@ export function useNavigationItems() {
     fetchNavItems,
     createItem,
     updateItem,
-    deleteItem
+    deleteItem,
+    parseUrlByAi
   }
 }
