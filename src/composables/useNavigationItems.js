@@ -124,11 +124,12 @@ export function useNavigationItems() {
     }
     try {
       const endpoint = buildAiParserUrl()
+      const token = supabaseConfig.supabaseFunctionAnonKey || supabaseConfig.supabaseAnonKey
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${supabaseConfig.supabaseAnonKey}`
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({ url })
       })
